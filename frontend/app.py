@@ -24,16 +24,32 @@ if run_btn:
         st.error("Please fill niche, location, and your service.")
     else:
         with st.spinner("Researching leads..."):
-            resp = requests.post(
-                f"{BACKEND_URL}/api/leads/generate",
-                json={
-                    "niche": niche,
-                    "location": location,
-                    "client_service": client_service,
-                    "max_leads": max_leads,
-                },
-                timeout=300,
-            )
+            try:
+                resp = requests.post(
+                    f"{BACKEND_URL}/api/leads/generate",
+                    json={
+                        "niche": niche,
+                        "location": location,
+                        "client_service": client_service,
+                        "max_leads": max_leads,
+                    },
+                    timeout=200,
+                )
+            except requests.exceptions.ConnectionError:
+                st.error(
+                    f"❌ **Cannot connect to backend server at `{BACKEND_URL}`.**\n\n"
+                    "**How to fix:**\n"
+                    "1. **If running locally:** Make sure the FastAPI backend server is running in another terminal:\n"
+                    "   ```bash\n"
+                    "   python3 -m uvicorn backend.app.main:app --reload --port 8000\n"
+                    "   ```\n"
+                    "2. **If running on Streamlit Cloud:** Streamlit Cloud cannot connect to `localhost`. You must deploy your backend to a public host (e.g. Render, Railway) and set `BACKEND_URL` in Streamlit App Secrets."
+                )
+                st.stop()
+            except requests.exceptions.RequestException as exc:
+                st.error(f"❌ Backend request failed: {exc}")
+                st.stop()
+
         if resp.status_code != 200:
             st.error(f"Backend error: {resp.status_code} - {resp.text}")
         else:
@@ -59,11 +75,21 @@ if st.button("Search Memory"):
     if not memory_query:
         st.warning("Enter a query first.")
     else:
-        resp = requests.post(
-            f"{BACKEND_URL}/api/leads/search-memory",
-            json={"query": memory_query, "top_k": 5},
-            timeout=60,
-        )
+        try:
+            resp = requests.post(
+                f"{BACKEND_URL}/api/leads/search-memory",
+                json={"query": memory_query, "top_k": 5},
+                timeout=60,
+            )
+        except requests.exceptions.ConnectionError:
+            st.error(
+                f"❌ **Cannot connect to backend server at `{BACKEND_URL}`.** Make sure FastAPI backend server is running."
+            )
+            st.stop()
+        except requests.exceptions.RequestException as exc:
+            st.error(f"❌ Backend request failed: {exc}")
+            st.stop()
+
         if resp.status_code != 200:
             st.error(f"Backend error: {resp.status_code} - {resp.text}")
         else:
