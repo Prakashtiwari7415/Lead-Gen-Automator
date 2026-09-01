@@ -2,7 +2,7 @@
 
 An end-to-end AI lead generation platform that automatically discovers, researches, analyzes, and drafts personalized B2B outreach for target businesses.
 
-🔗 **Live Demo (Streamlit Cloud)**: [https://prakashleadgenautomator.streamlit.app/](https://prakashleadgenautomator.streamlit.app/)
+🔗 **Live Demo (Streamlit Cloud)**: https://generate-your-leads.streamlit.app/
 
 ## Key Features
 
