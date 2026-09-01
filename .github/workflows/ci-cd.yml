@@ -66,9 +66,15 @@ jobs:
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - name: Deployment Trigger Log
+      - name: Trigger Render Deploy Webhook
+        env:
+          WEBHOOK_URL: ${{ secrets.RENDER_DEPLOY_WEBHOOK_URL }}
         run: |
-          echo "✅ CI checks passed successfully."
-          echo "🚀 Triggering automatic deployment to Render / Streamlit Cloud..."
-          # Optional: Trigger Render Deploy Webhook via curl
-          # curl -X POST "${{ secrets.RENDER_DEPLOY_WEBHOOK_URL }}"
+          echo "✅ CI checks and Docker builds passed successfully."
+          if [ -n "$WEBHOOK_URL" ]; then
+            echo "🚀 Triggering automatic deployment on Render..."
+            curl -s -X POST "$WEBHOOK_URL"
+            echo "🎉 Deployment webhook fired!"
+          else
+            echo "ℹ️ RENDER_DEPLOY_WEBHOOK_URL secret is not set yet in GitHub Secrets. Skipping webhook call."
+          fi
