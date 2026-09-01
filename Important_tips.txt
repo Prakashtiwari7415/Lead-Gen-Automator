@@ -1,0 +1,13 @@
+### Content for Resume:
+Lead-Gen Automator — AI Lead Generation Platform | Python, FastAPI, Streamlit, Docker, GitHub Actions, Render, LangChain
+
+Architected & Containerized: Containerized a full-stack AI microservice application using Docker & Docker Compose, enabling isolated runtime environments and persistent vector database storage across services.
+Automated CI/CD Pipeline: Built automated GitHub Actions workflows for continuous integration (linting, Docker container image verification) and continuous deployment (CD) triggers.
+Cloud Microservices Deployment: Deployed FastAPI REST API on Render.com with CORS configuration and environment secret management, integrated with a live Streamlit Cloud frontend.
+
+
+
+
+
+###Important tips for resume:
+ "I designed Lead-Gen Automator using a decoupled microservices architecture. I containerized the FastAPI AI engine and Streamlit UI using Docker and Docker Compose for local development. For cloud infrastructure, I deployed the backend to Render using container builds with environment secret management, and hosted the frontend on Streamlit Cloud. To ensure software reliability, I built a continuous integration and continuous deployment (CI/CD) pipeline using GitHub Actions that automatically lints code, verifies Docker container builds, and triggers automated cloud deployment webhooks upon code merge."
